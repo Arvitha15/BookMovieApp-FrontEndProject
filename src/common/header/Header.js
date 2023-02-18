@@ -1,10 +1,13 @@
 import React from "react";
+import ImgLogo from "../../assets/logo.svg";
+import './Header.css';
+
 
 function Header(){
 
     return(
-        <div>
-            <h1>this is header page</h1>
+        <div className="headerPage">
+            <img className="rotate linear infinite" src={ImgLogo} alt="play-logo" />
         </div>
     )
 

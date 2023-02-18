@@ -1,0 +1,32 @@
+.headerPage{
+    background-color: #222;
+    height: 36px;
+    padding: 8px 32px 8px 16px;
+}
+
+img{
+    background-color: #ff7f7f;
+    height: 35px;
+}
+
+.rotate {
+    animation: rotation 8s;
+  }
+
+  @keyframes rotation {
+    from {
+      transform: rotateY(0deg);
+    }
+    to {
+      transform: rotateY(360deg);
+    }
+  }
+
+  .linear {
+    animation-timing-function: linear;
+  }
+
+  .infinite {
+    animation-iteration-count: infinite;
+  }
+
