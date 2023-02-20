@@ -1,0 +1,23 @@
+#backBtn{
+    margin-left: 24px;
+    margin-top: 8px;
+    margin-bottom: 0px;
+    height: 24px;
+    cursor: pointer;
+}
+
+.remainingPart{
+    display: flex;
+}
+
+.firstPart{
+    flex: 20;
+}
+
+.middlePart{
+   flex: 60;
+}
+
+.lastPart{
+   flex: 20;
+}

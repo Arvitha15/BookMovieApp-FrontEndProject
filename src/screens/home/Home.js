@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Header from "../../common/header/Header";
 import './Home.css';
 import GridList from '@material-ui/core/GridList';
@@ -7,12 +7,13 @@ import GridListTileBar from '@material-ui/core/GridListTileBar';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import { MuiThemeProvider, createMuiTheme, FormControl } from "@material-ui/core";
+import { createMuiTheme, FormControl } from "@material-ui/core";
 import TextField from '@material-ui/core/TextField';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
+import Button from '@material-ui/core/Button';
 
 
 function Home() {
@@ -21,62 +22,56 @@ function Home() {
 
 
 
-    const styleLevel = { margin: theme.spacing.unit };
+    const styleLevel = { 
+        margin: theme.spacing.unit,
+        minWidth:240,
+        maxWidth:240
+    };
 
     const movies = [
         {
             id: 1,
             poster_url: 'image',
-            title: 'Image',
+            title: 'Image1',
             author: 'author',
         },
         {
             id: 2,
             poster_url: 'image',
-            title: 'Image',
+            title: 'Image2',
             author: 'author',
         },
         {
             id: 3,
             poster_url: 'image',
-            title: 'Image',
+            title: 'Image3',
             author: 'author',
         },
         {
             id: 4,
             poster_url: 'image',
-            title: 'Image',
+            title: 'Image4',
             author: 'author',
         },
         {
             id: 5,
             poster_url: 'image',
-            title: 'Image',
+            title: 'Image5',
             author: 'author',
         },
         {
             id: 6,
             poster_url: 'image',
-            title: 'Image',
+            title: 'Image6',
             author: 'author',
         },
         {
             id: 7,
             poster_url: 'image',
-            title: 'Image',
+            title: 'Image7',
             author: 'author',
         },
     ];
-
-    const[disId, setId] = useState([]);
-    const getValue=(e)=>{
-        let data=disId;
-        data.push(e.target.value)
-        setId(data)
-        console.log(disId)
-    }
-
-
 
 
     return (
@@ -109,34 +104,72 @@ function Home() {
                     </GridList>
                 </div>
                 <div className="rightPart">
-                    <MuiThemeProvider theme={theme}>
-                        <Card style={{ minWidth: 240, maxWidth: 240 }}>
-                            <CardContent style={styleLevel}>
-                                <Typography style={{ margin: theme.spacing.unit, color: theme.palette.primary.light }}>FIND MOVIES BY:</Typography>
-                                <FormControl>
-                                    <TextField style={styleLevel}
-                                        label="Movie Name"
-                                        className="textField"
-                                    />
-                                    <InputLabel style={{ marginLeft: '8px', 'marginTop': '56px' }}>Genres</InputLabel>
-                                    <Select style={styleLevel}
-                                    
-                        >
-                                        {movies.map(tile => (
-                                            <MenuItem value={tile.id}>
-                                                 <Checkbox defaultValue={1}  color="default" value={tile.id} 
-                                                 onChange={(e)=>getValue(e)}  />
-                                                {tile.id}</MenuItem>
-                                        ))}
-                                        
 
+                    <Card className="cardData">
+                        <CardContent style={styleLevel}>
+                            <Typography style={{ margin: theme.spacing.unit, color: theme.palette.primary.light }}>FIND MOVIES BY:</Typography>
+                            <FormControl>
+                                <TextField style={styleLevel}
+                                    label="Movie Name"
+                                    className="textField"
+                                />
+                            </FormControl>
+                            <FormControl style={styleLevel}>
+                                <InputLabel>Generes</InputLabel>
+                                <Select style={{ minWidth: 240, maxWidth:240 }}>
+                                    {movies.map(tile => (
+                                        <MenuItem value={tile.title} key={tile.id}>
+                                            <Checkbox name={tile.title} value={tile.title} />
+                                            {tile.title}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                            <FormControl style={styleLevel}>
+                                <InputLabel>Artists</InputLabel>
+                                <Select style={{ minWidth: 180 }}>
+                                    {movies.map(tile => (
+                                        <MenuItem value={tile.title} key={tile.id}>
+                                            <Checkbox name={tile.title} value={tile.title} />
+                                            {tile.title}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                            <FormControl style={styleLevel}>
+                                <TextField style={{ minWidth: 180 }}
+                                    id="date"
+                                    label="Release Date Start"
+                                    type="date"
+                                    defaultValue="dd-mm-yyyy"
 
-                                    </Select>
-                                </FormControl>
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
+                            </FormControl>
+                            <FormControl style={styleLevel}>
+                                <TextField style={{ minWidth: 180 }}
+                                    id="date"
+                                    label="Release Date End"
+                                    type="date"
+                                    defaultValue="dd-mm-yyyy"
 
-                            </CardContent>
-                        </Card>
-                    </MuiThemeProvider>
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
+                            </FormControl>
+                            <br/><br/>
+                            <FormControl>
+                                <Button style={styleLevel} id="butn" variant="contained" color="primary">
+                                APPLY 
+                                </Button>
+                            </FormControl>
+
+                        </CardContent>
+                    </Card>
+
                 </div>
             </div>
 
