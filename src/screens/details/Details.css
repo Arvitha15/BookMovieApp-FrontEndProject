@@ -21,3 +21,18 @@
 .lastPart{
    flex: 20;
 }
+
+#plot{
+    margin-top: 16px;
+}
+#trailer{
+    margin-top: 16px;
+}
+
+.on{
+    color: yellow;
+}
+
+.off{
+    color: black;
+}
