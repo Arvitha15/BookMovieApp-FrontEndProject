@@ -13,6 +13,7 @@ import { FormControl } from "@material-ui/core";
 import TextField from '@material-ui/core/TextField';
 
 
+
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
 
@@ -83,6 +84,29 @@ function Header() {
         });
     }
 
+    const [register, setRegister] = useState({
+        firstName: '',
+        lastName: '',
+        email:'',
+        regPassword:'',
+        contact:''
+
+    });
+    const {firstName, lastName, email, regPassword, contact} = register;
+
+    const inputChangedHandlerForReg = (e) => {
+        const state = register;
+        state[e.target.name] = e.target.value;
+        setRegister({
+            firstName: state["firstName"],
+            lastName: state["lastName"],
+            email: state["email"],
+            regPassword: state["regPassword"],
+            contact: state["contact"]
+        });
+    }
+    const isTextBlank = (val) => val.length===0;
+
     return (
         <div className="headerPage">
             <img className="rotate linear infinite" src={ImgLogo} alt="play-logo" />
@@ -108,38 +132,74 @@ function Header() {
                     </Tabs>
                     <TabPanel value={value} index={0}>
 
-                        <div style={{display:"flex", flexDirection:"column"}}>
+                        <div style={{ display: "flex", flexDirection: "column" }}>
+                            <FormControl>
+                                <TextField id="userName" type="text" name="userName" onChange={inputChangedHandler}
+                                    value={userName} label="Username" required>
 
+                                </TextField>
+                            </FormControl>
 
-                        <FormControl>
-                            <TextField id="userName" type="text" name="userName" onChange={inputChangedHandler}
-                                value={userName} label="Username" validators={['required']} errorMessages={['name cannot be empty']}>
-
-                            </TextField>
-                        </FormControl>
-                        <FormControl>
-
-                            <TextField id="password" type="text" name="password" onChange={inputChangedHandler}
-                                value={password} label="Password" validators={['required', 'isNumber']} errorMessages={['phone number cannot be empty', 'provide valid phone number']}>
-
-                            </TextField>
-                        </FormControl>
-                        <FormControl>
-                            <Button variant="contained" color="primary">LOGIN</Button>
-                        </FormControl>
+                            <FormControl>
+                                <TextField id="password" type="text" name="password" onChange={inputChangedHandler}
+                                    value={password} label="Password" required>
+                                </TextField>
+                            </FormControl>
+                            <FormControl>
+                                <Button variant="contained" color="primary">LOGIN</Button>
+                            </FormControl>
                         </div>
-
-
-
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        Item Two
+                        <div style={{ display: "flex", flexDirection: "column" }}>
+                            <FormControl>
+                                <TextField id="firstName" type="text" name="firstName" onChange={inputChangedHandlerForReg}
+                                    value={firstName} label="First Name" required
+                                    helperText={isTextBlank(firstName)?"required":""}
+                                    error={isTextBlank(firstName)} >
+
+                                </TextField>
+                            </FormControl>
+
+                            <FormControl>
+                                <TextField id="lastName" type="text" name="lastName" onChange={inputChangedHandlerForReg}
+                                    value={lastName} label="Last Name" required 
+                                    helperText={isTextBlank(lastName)?"required":""}
+                                    error={isTextBlank(lastName)} >
+
+                                </TextField>
+                            </FormControl>
+                            <FormControl>
+                                <TextField id="email" type="text" name="email" onChange={inputChangedHandlerForReg}
+                                    value={email} label="Email" required
+                                    helperText={isTextBlank(email)?"required":""}
+                                    error={isTextBlank(email)} >
+                                </TextField>
+                            </FormControl>
+                            <FormControl>
+                                <TextField id="regPassword" type="text" name="regPassword" onChange={inputChangedHandlerForReg}
+                                    value={regPassword} label="Password" required
+                                    helperText={isTextBlank(regPassword)?"required":""}
+                                    error={isTextBlank(regPassword)} >
+                                </TextField>
+                            </FormControl>
+                            <FormControl>
+                                <TextField id="contact" type="text" name="contact" onChange={inputChangedHandlerForReg}
+                                    value={contact} label="Contact No." required
+                                    helperText={isTextBlank(contact)?"required":""}
+                                    error={isTextBlank(contact)}>
+                                </TextField>
+                            </FormControl>
+                            <FormControl>
+                                <Button variant="contained" color="primary">REGISTER</Button>
+                            </FormControl>
+                        </div>
                     </TabPanel>
                 </Card>
             </Modal>
 
             {/* <Button variant="contained">Logout</Button> */}
-            <Button variant="contained" color="primary" style={{ position: "absolute", right: 111 }}>Book Show</Button>
+            {/* <Button variant="contained" color="primary" style={{ position: "absolute", right: 111 }}>Book Show</Button> */}
         </div>
     )
 
