@@ -9,8 +9,16 @@ import Card from '@material-ui/core/Card';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
-import { FormControl } from "@material-ui/core";
 import TextField from '@material-ui/core/TextField';
+import { useHistory } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import CardContent from "@material-ui/core/CardContent";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import Input from "@material-ui/core/Input";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormHelperText from "@material-ui/core/FormHelperText";
 
 
 
@@ -68,6 +76,7 @@ function Header() {
         boxShadow: 24,
         p: 4,
     };
+    const history = useHistory();
 
     const [login, setLogin] = useState({
         userName: '',
@@ -85,27 +94,61 @@ function Header() {
     }
 
     const [register, setRegister] = useState({
-        firstName: '',
-        lastName: '',
-        email:'',
-        regPassword:'',
-        contact:''
+        first_name: '',
+        last_name: '',
+        email_address: '',
+        regPassword: '',
+        mobile_number: ''
 
     });
-    const {firstName, lastName, email, regPassword, contact} = register;
+    const { first_name, last_name, email_address, regPassword, mobile_number } = register;
 
     const inputChangedHandlerForReg = (e) => {
         const state = register;
         state[e.target.name] = e.target.value;
         setRegister({
-            firstName: state["firstName"],
-            lastName: state["lastName"],
-            email: state["email"],
+            first_name: state["first_name"],
+            last_name: state["last_name"],
+            email_address: state["email_address"],
             regPassword: state["regPassword"],
-            contact: state["contact"]
+            mobile_number: state["mobile_number"]
         });
     }
-    const isTextBlank = (val) => val.length===0;
+    const isTextBlank = (val) => val.length === 0;
+
+    async function registerUser(newUser) {
+
+        const rawResponse = await fetch("http://localhost:8085/api/v1/signup",
+            {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newUser)
+            }
+        );
+
+
+        const data = await rawResponse.json();
+
+    }
+
+
+    const onFormSubmitted = (e) => {
+        e.preventDefault();
+
+        registerUser(register);
+        setRegister({
+            first_name: '',
+            last_name: '',
+            email_address: '',
+            regPassword: '',
+            mobile_number: ''
+        });
+        history.push("/")
+    }
+
+
 
     return (
         <div className="headerPage">
@@ -153,53 +196,56 @@ function Header() {
                     <TabPanel value={value} index={1}>
                         <div style={{ display: "flex", flexDirection: "column" }}>
                             <FormControl>
-                                <TextField id="firstName" type="text" name="firstName" onChange={inputChangedHandlerForReg}
-                                    value={firstName} label="First Name" required
-                                    helperText={isTextBlank(firstName)?"required":""}
-                                    error={isTextBlank(firstName)} >
+                                <TextField id="first_name" type="text" name="first_name" onChange={inputChangedHandlerForReg}
+                                    value={first_name} label="First Name" required
+                                    helperText={isTextBlank(first_name) ? "required" : ""}
+                                    error={isTextBlank(first_name)} >
 
                                 </TextField>
                             </FormControl>
 
                             <FormControl>
-                                <TextField id="lastName" type="text" name="lastName" onChange={inputChangedHandlerForReg}
-                                    value={lastName} label="Last Name" required 
-                                    helperText={isTextBlank(lastName)?"required":""}
-                                    error={isTextBlank(lastName)} >
+                                <TextField id="last_name" type="text" name="last_name" onChange={inputChangedHandlerForReg}
+                                    value={last_name} label="Last Name" required
+                                    helperText={isTextBlank(last_name) ? "required" : ""}
+                                    error={isTextBlank(last_name)} >
 
                                 </TextField>
                             </FormControl>
                             <FormControl>
-                                <TextField id="email" type="text" name="email" onChange={inputChangedHandlerForReg}
-                                    value={email} label="Email" required
-                                    helperText={isTextBlank(email)?"required":""}
-                                    error={isTextBlank(email)} >
+                                <TextField id="email_address" type="text" name="email_address" onChange={inputChangedHandlerForReg}
+                                    value={email_address} label="Email" required
+                                    helperText={isTextBlank(email_address) ? "required" : ""}
+                                    error={isTextBlank(email_address)} >
                                 </TextField>
                             </FormControl>
                             <FormControl>
                                 <TextField id="regPassword" type="text" name="regPassword" onChange={inputChangedHandlerForReg}
                                     value={regPassword} label="Password" required
-                                    helperText={isTextBlank(regPassword)?"required":""}
+                                    helperText={isTextBlank(regPassword) ? "required" : ""}
                                     error={isTextBlank(regPassword)} >
                                 </TextField>
                             </FormControl>
                             <FormControl>
-                                <TextField id="contact" type="text" name="contact" onChange={inputChangedHandlerForReg}
-                                    value={contact} label="Contact No." required
-                                    helperText={isTextBlank(contact)?"required":""}
-                                    error={isTextBlank(contact)}>
+                                <TextField id="mobile_number" type="text" name="mobile_number" onChange={inputChangedHandlerForReg}
+                                    value={mobile_number} label="Contact No." required
+                                    helperText={isTextBlank(mobile_number) ? "required" : ""}
+                                    error={isTextBlank(mobile_number)}>
                                 </TextField>
                             </FormControl>
                             <FormControl>
-                                <Button variant="contained" color="primary">REGISTER</Button>
+                                <Button variant="contained" color="primary" onSubmit={onFormSubmitted}>REGISTER</Button>
                             </FormControl>
                         </div>
                     </TabPanel>
+                   
                 </Card>
             </Modal>
 
             {/* <Button variant="contained">Logout</Button> */}
-            {/* <Button variant="contained" color="primary" style={{ position: "absolute", right: 111 }}>Book Show</Button> */}
+            <Link to="/bookshow/:id">
+                <Button variant="contained" color="primary" style={{ position: "absolute", right: 111 }}>Book Show</Button>
+            </Link>
         </div>
     )
 

@@ -3,13 +3,16 @@ import Typography from '@material-ui/core/Typography';
 import Header from "../../common/header/Header";
 import './Details.css';
 import StarBorderOutlinedIcon from '@material-ui/icons/StarBorderOutlined';
+import { Link } from "react-router-dom";
 
 function Details() {
     const [rating, setRating] = useState(0);
     return (
         <div>
             <Header />
+            <Link to="/">
             <Typography id="backBtn">&lt; Back to Home</Typography>
+            </Link>
             <div className="remainingPart">
                 <div className="firstPart">first</div>
                 <div className="middlePart">

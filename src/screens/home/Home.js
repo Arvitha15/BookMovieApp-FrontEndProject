@@ -14,6 +14,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
+import { Link } from "react-router-dom";
 
 
 function Home() {
@@ -92,16 +93,21 @@ function Home() {
             </div>
             <div className="container">
                 <div className="leftPart">
+                    
                     <GridList className="releaseGridList" cols={4} cellHeight={350}>
-                        {movies.map(tile => (
+                        {movies.map(tile => (  
                             <GridListTile key={tile.id} style={{ cursor: 'pointer' }}>
+                                <Link to={"/movie/:"+tile.id} style={{textDecoration:"none"}}>
                                 <img src={tile.poster_url} alt={tile.title} />
                                 <GridListTileBar className="root titlebar"
                                     title={tile.title}
                                 />
+                                </Link>
                             </GridListTile>
+                            
                         ))}
                     </GridList>
+                    
                 </div>
                 <div className="rightPart">
 
