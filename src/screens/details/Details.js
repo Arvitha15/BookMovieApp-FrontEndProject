@@ -1,12 +1,26 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Typography from '@material-ui/core/Typography';
 import Header from "../../common/header/Header";
 import './Details.css';
 import StarBorderOutlinedIcon from '@material-ui/icons/StarBorderOutlined';
 import { Link } from "react-router-dom";
 
-function Details() {
+function Details({match}) {
     const [rating, setRating] = useState(0);
+    const [movieById, setMovieById] = useState([]);
+    async function getMoviesDataById(){
+
+        const rawResponse = await  fetch("http://localhost:8085/api/v1/movies/"+(match.params.id))
+        const data = await rawResponse.json()
+ 
+        setMovieById(data);
+     }
+     useEffect(()=>{
+        getMoviesDataById();
+     },[])
+
+     console.log(movieById);
+
     return (
         <div>
             <Header />
@@ -16,7 +30,7 @@ function Details() {
             <div className="remainingPart">
                 <div className="firstPart">first</div>
                 <div className="middlePart">
-                    <Typography variant="headline" component="h2">movie titile</Typography>
+                    <Typography variant="headline" component="h2">{movieById.title}</Typography>
                     <Typography variant="subtitle2" component="h2">Duration:</Typography>
                     <Typography variant="subtitle2" component="h2">Release Date:</Typography>
                     <Typography variant="subtitle2" component="h2">Rating:</Typography>

@@ -283,9 +283,9 @@ const BookShow = (props) => {
             </FormControl>
             <br />
             <br />
-            <Typography>Unit Price: Rs. {unitPrice}</Typography>
+            <Typography style={{textAlign: "left"}}>Unit Price: Rs. {unitPrice}</Typography>
             <br />
-            <Typography>
+            <Typography style={{textAlign: "left"}}>
               Total Price: Rs. {unitPrice * tickets}
             </Typography>
             <br />

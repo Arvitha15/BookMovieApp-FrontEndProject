@@ -10,69 +10,63 @@ import Typography from '@material-ui/core/Typography';
 import { createMuiTheme, FormControl } from "@material-ui/core";
 import TextField from '@material-ui/core/TextField';
 import InputLabel from '@material-ui/core/InputLabel';
+import Button from '@material-ui/core/Button';
+import { Link } from "react-router-dom";
+import { useEffect, useState } from 'react';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
-import Button from '@material-ui/core/Button';
-import { Link } from "react-router-dom";
 
 
 function Home() {
 
     const theme = createMuiTheme();
+    const [movieList, setMovieList] = useState([]);
+    const[genere, setGenere] = useState([]);
+    const[artist, setArtist]= useState([]);
 
 
 
-    const styleLevel = { 
+    const styleLevel = {
         margin: theme.spacing.unit,
-        minWidth:240,
-        maxWidth:240
+        minWidth: 240,
+        maxWidth: 240
     };
 
-    const movies = [
-        {
-            id: 1,
-            poster_url: 'image',
-            title: 'Image1',
-            author: 'author',
-        },
-        {
-            id: 2,
-            poster_url: 'image',
-            title: 'Image2',
-            author: 'author',
-        },
-        {
-            id: 3,
-            poster_url: 'image',
-            title: 'Image3',
-            author: 'author',
-        },
-        {
-            id: 4,
-            poster_url: 'image',
-            title: 'Image4',
-            author: 'author',
-        },
-        {
-            id: 5,
-            poster_url: 'image',
-            title: 'Image5',
-            author: 'author',
-        },
-        {
-            id: 6,
-            poster_url: 'image',
-            title: 'Image6',
-            author: 'author',
-        },
-        {
-            id: 7,
-            poster_url: 'image',
-            title: 'Image7',
-            author: 'author',
-        },
-    ];
+    
+    async function getMoviesData(){
+
+       const rawResponse = await  fetch("http://localhost:8085/api/v1/movies?page=1&limit=20")
+       const data = await rawResponse.json()
+
+       setMovieList(data.movies);
+    }
+    useEffect(()=>{
+        getMoviesData();
+    },[])
+    async function getGeneres(){
+
+        const rawResponse = await  fetch("http://localhost:8085/api/v1/genres")
+        const data = await rawResponse.json()
+ 
+        setGenere(data.genres);
+     }
+     useEffect(()=>{
+        getGeneres();
+     },[])
+
+     async function getArtists(){
+
+        const rawResponse = await  fetch("http://localhost:8085/api/v1/artists?page=1&limit=100")
+        const data = await rawResponse.json()
+ 
+        setArtist(data.artists);
+     }
+     useEffect(()=>{
+        getArtists();
+     },[])
+
+
 
 
     return (
@@ -81,39 +75,46 @@ function Home() {
             <div className="heading">Upcoming Movies</div>
             <div className="upcomingMoviesList">
                 <GridList className="gridList" style={{ flexWrap: 'inherit' }} cols={6} cellHeight={250}>
-                    {movies.map(tile => (
-                        <GridListTile key={tile.id}>
-                            <img src={tile.poster_url} alt={tile.title} />
-                            <GridListTileBar className="root titlebar"
-                                title={tile.title}
-                            />
-                        </GridListTile>
-                    ))}
+                {movieList.filter(x=>x.status === "PUBLISHED").map(tile => (  
+                    
+                            <GridListTile key={tile.id}>
+                              
+                                <img style={{height:"inherit"}} src={tile.poster_url} alt={tile.title} />
+                                <GridListTileBar className="root titlebar"
+                                    title={tile.title}
+                                />
+                               
+                            </GridListTile>
+                     
+                        ))}
+
                 </GridList>
             </div>
             <div className="container">
                 <div className="leftPart">
-                    
+
                     <GridList className="releaseGridList" cols={4} cellHeight={350}>
-                        {movies.map(tile => (  
+                        {movieList.filter(x=>x.status === "RELEASED").map(tile => (  
+                           
                             <GridListTile key={tile.id} style={{ cursor: 'pointer' }}>
-                                <Link to={"/movie/:"+tile.id} style={{textDecoration:"none"}}>
-                                <img src={tile.poster_url} alt={tile.title} />
+                                 <Link to={"/movie/:"+tile.id} style={{textDecoration:"none"}}>
+                                <img style={{height:"-webkit-fill-available"}} src={tile.poster_url} alt={tile.title} />
                                 <GridListTileBar className="root titlebar"
                                     title={tile.title}
                                 />
-                                </Link>
+                               </Link>
                             </GridListTile>
+                            
                             
                         ))}
                     </GridList>
-                    
+
                 </div>
                 <div className="rightPart">
 
                     <Card className="cardData">
                         <CardContent style={styleLevel}>
-                            <Typography style={{ margin: theme.spacing.unit, color: theme.palette.primary.light, textAlign:"left" }}>FIND MOVIES BY:</Typography>
+                            <Typography style={{ margin: theme.spacing.unit, color: theme.palette.primary.light, textAlign: "left" }}>FIND MOVIES BY:</Typography>
                             <FormControl>
                                 <TextField style={styleLevel}
                                     label="Movie Name"
@@ -123,10 +124,10 @@ function Home() {
                             <FormControl style={styleLevel}>
                                 <InputLabel>Generes</InputLabel>
                                 <Select style={{ minWidth: 240, maxWidth:240 }}>
-                                    {movies.map(tile => (
-                                        <MenuItem value={tile.title} key={tile.id}>
-                                            <Checkbox name={tile.title} value={tile.title} />
-                                            {tile.title}
+                                    {genere.map(tile => (
+                                        <MenuItem value={tile.genre} key={tile.id}>
+                                            <Checkbox name={tile.genre} value={tile.genre} />
+                                            {tile.genre}
                                         </MenuItem>
                                     ))}
                                 </Select>
@@ -134,10 +135,10 @@ function Home() {
                             <FormControl style={styleLevel}>
                                 <InputLabel>Artists</InputLabel>
                                 <Select style={{ minWidth: 180 }}>
-                                    {movies.map(tile => (
-                                        <MenuItem value={tile.title} key={tile.id}>
-                                            <Checkbox name={tile.title} value={tile.title} />
-                                            {tile.title}
+                                    {artist.map(tile => (
+                                        <MenuItem value={tile.first_name+" "+tile.last_name} key={tile.id}>
+                                            <Checkbox name={tile.first_name+" "+tile.last_name} value={tile.first_name+" "+tile.last_name} />
+                                            {tile.first_name+" "+tile.last_name}
                                         </MenuItem>
                                     ))}
                                 </Select>
@@ -166,10 +167,10 @@ function Home() {
                                     }}
                                 />
                             </FormControl>
-                            <br/><br/>
+                            <br /><br />
                             <FormControl>
                                 <Button style={styleLevel} id="butn" variant="contained" color="primary">
-                                APPLY 
+                                    APPLY
                                 </Button>
                             </FormControl>
 
