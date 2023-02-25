@@ -11,7 +11,7 @@ function Details() {
         <div>
             <Header />
             <Link to="/">
-            <Typography id="backBtn">&lt; Back to Home</Typography>
+            <Typography id="backBtn" style={{textAlign:"left"}}>&lt; Back to Home</Typography>
             </Link>
             <div className="remainingPart">
                 <div className="firstPart">first</div>

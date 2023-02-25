@@ -113,7 +113,7 @@ function Home() {
 
                     <Card className="cardData">
                         <CardContent style={styleLevel}>
-                            <Typography style={{ margin: theme.spacing.unit, color: theme.palette.primary.light }}>FIND MOVIES BY:</Typography>
+                            <Typography style={{ margin: theme.spacing.unit, color: theme.palette.primary.light, textAlign:"left" }}>FIND MOVIES BY:</Typography>
                             <FormControl>
                                 <TextField style={styleLevel}
                                     label="Movie Name"

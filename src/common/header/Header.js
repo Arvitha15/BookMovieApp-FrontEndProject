@@ -9,15 +9,11 @@ import Card from '@material-ui/core/Card';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
 import { useHistory } from 'react-router-dom';
 import { Link } from "react-router-dom";
-import CardContent from "@material-ui/core/CardContent";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
 
 
@@ -60,6 +56,16 @@ function Header() {
     const buttonStyle = { position: "absolute", right: 20 };
     const [open, setOpen] = React.useState(false);
     const [value, setValue] = React.useState(0);
+    const [first_name, setFirstName] = useState("");
+    const [last_name, setLastName] = useState("");
+    const [email_address, setEmailAddress] = useState("");
+    const [regPassword, setPassword] = useState("");
+    const [mobile_number, setMobileNumber] = useState("");
+    const [reqfirst_name, reqsetFirstName] = useState("dispNone");
+    const [reqlast_name, reqsetLastName] = useState("dispNone");
+    const [reqemail_address, reqsetEmailAddress] = useState("dispNone");
+    const [reqregPassword, reqsetPassword] = useState("dispNone");
+    const [reqmobile_number, reqsetMobileNumber] = useState("dispNone");
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const handleChange = (event, newValue) => {
@@ -92,30 +98,6 @@ function Header() {
             password: state["password"]
         });
     }
-
-    const [register, setRegister] = useState({
-        first_name: '',
-        last_name: '',
-        email_address: '',
-        regPassword: '',
-        mobile_number: ''
-
-    });
-    const { first_name, last_name, email_address, regPassword, mobile_number } = register;
-
-    const inputChangedHandlerForReg = (e) => {
-        const state = register;
-        state[e.target.name] = e.target.value;
-        setRegister({
-            first_name: state["first_name"],
-            last_name: state["last_name"],
-            email_address: state["email_address"],
-            regPassword: state["regPassword"],
-            mobile_number: state["mobile_number"]
-        });
-    }
-    const isTextBlank = (val) => val.length === 0;
-
     async function registerUser(newUser) {
 
         const rawResponse = await fetch("http://localhost:8085/api/v1/signup",
@@ -132,21 +114,42 @@ function Header() {
         const data = await rawResponse.json();
 
     }
+    const firstNameChangeHandler = (event) => {
+        setFirstName(event.target.value);
+      };
+      const lastNameChangeHandler = (event) => {
+        setLastName(event.target.value);
+      };
+      const emailChangeHandler = (event) => {
+        setEmailAddress(event.target.value);
+      };
+      const passwordChangeHandler = (event) => {
+        setPassword(event.target.value);
+      };
+      const mobileNumberChangeHandler = (event) => {
+        setMobileNumber(event.target.value);
+      };
 
+    const onFormSubmitted = () => {
+        first_name === "" ? reqsetFirstName("dispBlock") : reqsetFirstName("dispNone");
+        last_name === "" ? reqsetLastName("dispBlock") : reqsetLastName("dispNone");
+        email_address === "" ? reqsetEmailAddress("dispBlock") : reqsetEmailAddress("dispNone");
+        regPassword === "" ? reqsetPassword("dispBlock") : reqsetPassword("dispNone");
+        mobile_number === "" ? reqsetMobileNumber("dispBlock") : reqsetMobileNumber("dispNone");
+    
+        if (
+            first_name === "" ||
+            last_name === "" ||
+            email_address === "" ||
+            regPassword === "" ||
+            mobile_number === ""
+        ) {
+          return;
+        }  
+          
+      };
 
-    const onFormSubmitted = (e) => {
-        e.preventDefault();
-
-        registerUser(register);
-        setRegister({
-            first_name: '',
-            last_name: '',
-            email_address: '',
-            regPassword: '',
-            mobile_number: ''
-        });
-        history.push("/")
-    }
+  
 
 
 
@@ -166,7 +169,7 @@ function Header() {
                         value={value}
                         onChange={handleChange}
                         indicatorColor="secondary"
-                        textColor="default"
+
                         variant="fullWidth"
                         aria-label="full width tabs example"
                     >
@@ -175,70 +178,105 @@ function Header() {
                     </Tabs>
                     <TabPanel value={value} index={0}>
 
-                        <div style={{ display: "flex", flexDirection: "column" }}>
-                            <FormControl>
-                                <TextField id="userName" type="text" name="userName" onChange={inputChangedHandler}
-                                    value={userName} label="Username" required>
 
-                                </TextField>
-                            </FormControl>
+                        <FormControl required className="formControl">
+                            <InputLabel htmlFor="userName" style={{ textAlign: "center" }}>Username</InputLabel>
+                            <Input id="userName" name="userName" onChange={inputChangedHandler}
+                                value={userName}>
 
-                            <FormControl>
-                                <TextField id="password" type="text" name="password" onChange={inputChangedHandler}
-                                    value={password} label="Password" required>
-                                </TextField>
-                            </FormControl>
-                            <FormControl>
-                                <Button variant="contained" color="primary">LOGIN</Button>
-                            </FormControl>
-                        </div>
+                            </Input>
+                            <FormHelperText className={userName}>
+                                <span className="red">Required</span>
+                            </FormHelperText>
+                        </FormControl>
+                        <br />
+                        <br />
+
+                        <FormControl required className="formControl">
+                            <InputLabel htmlFor="password">Password</InputLabel>
+                            <Input id="password" name="password" onChange={inputChangedHandler}
+                                value={password}>
+                            </Input>
+                            <FormHelperText className={password}>
+                                <span className="red">Required</span>
+                            </FormHelperText>
+                        </FormControl>
+                        <br />
+                        <br />
+                        <FormControl>
+                            <Button variant="contained" color="primary">LOGIN</Button>
+                        </FormControl>
+
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        <div style={{ display: "flex", flexDirection: "column" }}>
-                            <FormControl>
-                                <TextField id="first_name" type="text" name="first_name" onChange={inputChangedHandlerForReg}
-                                    value={first_name} label="First Name" required
-                                    helperText={isTextBlank(first_name) ? "required" : ""}
-                                    error={isTextBlank(first_name)} >
 
-                                </TextField>
-                            </FormControl>
+                        <FormControl required className="formControl">
+                            <InputLabel htmlFor="first_name">First Name</InputLabel>
+                            <Input id="first_name" name="first_name" onChange={firstNameChangeHandler}
+                                value={first_name}  >
 
-                            <FormControl>
-                                <TextField id="last_name" type="text" name="last_name" onChange={inputChangedHandlerForReg}
-                                    value={last_name} label="Last Name" required
-                                    helperText={isTextBlank(last_name) ? "required" : ""}
-                                    error={isTextBlank(last_name)} >
+                            </Input>
+                            <FormHelperText className={reqfirst_name}>
+                                <span className="red">Required</span>
+                            </FormHelperText>
+                        </FormControl>
+                        <br />
+                        <br />
+                        <FormControl required className="formControl">
+                            <InputLabel htmlFor="last_name">Last Name</InputLabel>
+                            <Input id="last_name" name="last_name" onChange={lastNameChangeHandler}
+                                value={last_name}  >
 
-                                </TextField>
-                            </FormControl>
-                            <FormControl>
-                                <TextField id="email_address" type="text" name="email_address" onChange={inputChangedHandlerForReg}
-                                    value={email_address} label="Email" required
-                                    helperText={isTextBlank(email_address) ? "required" : ""}
-                                    error={isTextBlank(email_address)} >
-                                </TextField>
-                            </FormControl>
-                            <FormControl>
-                                <TextField id="regPassword" type="text" name="regPassword" onChange={inputChangedHandlerForReg}
-                                    value={regPassword} label="Password" required
-                                    helperText={isTextBlank(regPassword) ? "required" : ""}
-                                    error={isTextBlank(regPassword)} >
-                                </TextField>
-                            </FormControl>
-                            <FormControl>
-                                <TextField id="mobile_number" type="text" name="mobile_number" onChange={inputChangedHandlerForReg}
-                                    value={mobile_number} label="Contact No." required
-                                    helperText={isTextBlank(mobile_number) ? "required" : ""}
-                                    error={isTextBlank(mobile_number)}>
-                                </TextField>
-                            </FormControl>
-                            <FormControl>
-                                <Button variant="contained" color="primary" onSubmit={onFormSubmitted}>REGISTER</Button>
-                            </FormControl>
-                        </div>
+                            </Input>
+                            <FormHelperText className={reqlast_name}>
+                                <span className="red">Required</span>
+                            </FormHelperText>
+                        </FormControl>
+                        <br />
+                        <br />
+                        <FormControl required className="formControl">
+                            <InputLabel htmlFor="email_address">Email</InputLabel>
+                            <Input id="email_address" name="email_address" onChange={emailChangeHandler}
+                                value={email_address}  >
+
+                            </Input>
+                            <FormHelperText className={reqemail_address}>
+                                <span className="red">Required</span>
+                            </FormHelperText>
+                        </FormControl>
+                        <br />
+                        <br />
+                        <FormControl required className="formControl">
+                            <InputLabel htmlFor="regPassword">Password</InputLabel>
+                            <Input id="regPassword" name="regPassword" onChange={passwordChangeHandler}
+                                value={regPassword}  >
+
+                            </Input>
+                            <FormHelperText className={reqregPassword}>
+                                <span className="red">Required</span>
+                            </FormHelperText>
+                        </FormControl>
+                        <br />
+                        <br />
+                        <FormControl required className="formControl">
+                            <InputLabel htmlFor="mobile_number">Contact No.</InputLabel>
+                            <Input id="mobile_number" name="mobile_number" onChange={mobileNumberChangeHandler}
+                                value={mobile_number}  >
+
+                            </Input>
+                            <FormHelperText className={reqmobile_number}>
+                                <span className="red">Required</span>
+                            </FormHelperText>
+                        </FormControl>
+                        <br />
+                        <br />
+
+                        <FormControl>
+                            <Button variant="contained" color="primary" onClick={onFormSubmitted}>REGISTER</Button>
+                        </FormControl>
+
                     </TabPanel>
-                   
+
                 </Card>
             </Modal>
 

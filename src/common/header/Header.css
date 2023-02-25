@@ -29,3 +29,14 @@ img{
   .infinite {
     animation-iteration-count: infinite;
   }
+
+  p{
+    text-align: center;
+  }
+  .dispNone {
+    display: none;
+}
+
+.dispBlock {
+    display: block;
+}
