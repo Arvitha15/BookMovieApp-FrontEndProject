@@ -9,7 +9,6 @@ import Card from '@material-ui/core/Card';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
-import { useHistory } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -82,7 +81,6 @@ function Header() {
         boxShadow: 24,
         p: 4,
     };
-    const history = useHistory();
 
     const [login, setLogin] = useState({
         userName: '',
@@ -110,25 +108,22 @@ function Header() {
             }
         );
 
-
-        const data = await rawResponse.json();
-
     }
     const firstNameChangeHandler = (event) => {
         setFirstName(event.target.value);
-      };
-      const lastNameChangeHandler = (event) => {
+    };
+    const lastNameChangeHandler = (event) => {
         setLastName(event.target.value);
-      };
-      const emailChangeHandler = (event) => {
+    };
+    const emailChangeHandler = (event) => {
         setEmailAddress(event.target.value);
-      };
-      const passwordChangeHandler = (event) => {
+    };
+    const passwordChangeHandler = (event) => {
         setPassword(event.target.value);
-      };
-      const mobileNumberChangeHandler = (event) => {
+    };
+    const mobileNumberChangeHandler = (event) => {
         setMobileNumber(event.target.value);
-      };
+    };
 
     const onFormSubmitted = () => {
         first_name === "" ? reqsetFirstName("dispBlock") : reqsetFirstName("dispNone");
@@ -136,7 +131,7 @@ function Header() {
         email_address === "" ? reqsetEmailAddress("dispBlock") : reqsetEmailAddress("dispNone");
         regPassword === "" ? reqsetPassword("dispBlock") : reqsetPassword("dispNone");
         mobile_number === "" ? reqsetMobileNumber("dispBlock") : reqsetMobileNumber("dispNone");
-    
+
         if (
             first_name === "" ||
             last_name === "" ||
@@ -144,12 +139,12 @@ function Header() {
             regPassword === "" ||
             mobile_number === ""
         ) {
-          return;
-        }  
-          
-      };
+            return;
+        }
 
-  
+    };
+
+
 
 
 

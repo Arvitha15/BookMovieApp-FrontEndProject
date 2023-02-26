@@ -196,7 +196,9 @@ const BookShow = (props) => {
       <Header baseUrl={props.baseUrl} />
       <div className="bookShow">
         <Typography className="back">
-          <Link to={"/movie/" + props.match.params.id}>
+          {/* <Link to={"/movie/" + props.match.params.id}> */}
+          {/* this link was modified as the login button was not able to be developed  */}
+          <Link to="/"> 
             &#60; Back to Movie Details
           </Link>
         </Typography>
